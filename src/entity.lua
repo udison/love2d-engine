@@ -14,7 +14,7 @@ local Entity = {
 }
 Entity.__index = Entity
 
-function Entity:new()
+function Entity.new()
 	local e = setmetatable({}, Entity)
 
 	e.sprite = love.graphics.newImage("assets/sprites/player_base.png")
@@ -25,7 +25,7 @@ function Entity:new()
 end
 
 function Entity:draw()
-	love.graphics.draw(self.sprite, self.x, self.y)
+	love.graphics.draw(self.sprite, self.x - 16, self.y - 21)
 end
 
 ---@param dt number
