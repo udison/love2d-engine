@@ -2,7 +2,7 @@ Draw = {}
 
 --- Draws a cross on the whole screen... pretty self-explanatory huh.
 --- If a color is provided, it will be set to white at the end of the function.
---- @param color table? A table of four values RGBA from 0 to 255
+--- @param color table? A table of four values RGBA from 0 to 1
 function Draw.cross_whole_screen(color)
 	if color ~= nil then
 		love.graphics.setColor(color)
@@ -21,7 +21,7 @@ function Draw.cross_whole_screen(color)
 	love.graphics.line(x1, y1, x2, y2)
 
 	if color ~= nil then
-		love.graphics.setColor({ 255, 255, 255, 255 })
+		love.graphics.setColor({ 1, 1, 1, 1 })
 	end
 end
 

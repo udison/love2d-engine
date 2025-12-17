@@ -11,6 +11,9 @@ local Entity = {
 
 	-- Physics
 	speed = 15,
+
+	-- Debug
+	draw_origin = false,
 }
 Entity.__index = Entity
 
@@ -26,6 +29,10 @@ end
 
 function Entity:draw()
 	love.graphics.draw(self.sprite, self.x - 16, self.y - 21)
+
+	if self.draw_origin then
+		love.graphics.circle("fill", self.x, self.y, 2)
+	end
 end
 
 ---@param dt number

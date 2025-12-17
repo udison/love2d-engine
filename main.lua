@@ -16,6 +16,7 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	player = Entity.new()
+	player.draw_origin = true
 end
 
 ---@param dt number
@@ -27,17 +28,23 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.clear({ 0.1, 0.47, 0.3, 1 })
+
 	-- world space
 	love.graphics.push()
 	love.graphics.scale(4, 4) -- camera zoom
 	love.graphics.translate(-Gs.camera.x, -Gs.camera.y)
+
+	love.graphics.setColor({ 0.8, 0.2, 0.3, 1 })
+	love.graphics.circle("fill", 35, 5, 2)
+	love.graphics.setColor({ 1, 1, 1, 1 })
 
 	player:draw()
 
 	love.graphics.pop()
 
 	-- screen space
-	-- Draw.cross_whole_screen({ 0, 128, 0, 255 })
+	-- Draw.cross_whole_screen({ 0, 1, 0, 1 })
 end
 
 ---@param key string
