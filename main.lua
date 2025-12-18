@@ -7,6 +7,7 @@ Gs = {
 	camera = {
 		x = 0,
 		y = 0,
+		zoom = 4,
 	},
 }
 
@@ -23,8 +24,9 @@ end
 function love.update(dt)
 	player:update(dt)
 
-	Gs.camera.x = player.x - love.graphics.getWidth() / 8
-	Gs.camera.y = player.y - love.graphics.getHeight() / 8
+	local zoom_factor = Gs.camera.zoom * 2
+	Gs.camera.x = player.x - love.graphics.getWidth() / zoom_factor
+	Gs.camera.y = player.y - love.graphics.getHeight() / zoom_factor
 end
 
 function love.draw()
@@ -32,7 +34,7 @@ function love.draw()
 
 	-- world space
 	love.graphics.push()
-	love.graphics.scale(4, 4) -- camera zoom
+	love.graphics.scale(Gs.camera.zoom, Gs.camera.zoom)
 	love.graphics.translate(-Gs.camera.x, -Gs.camera.y)
 
 	love.graphics.setColor({ 0.8, 0.2, 0.3, 1 })

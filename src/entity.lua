@@ -31,7 +31,14 @@ function Entity:draw()
 	love.graphics.draw(self.sprite, self.x - 16, self.y - 21)
 
 	if self.draw_origin then
-		love.graphics.circle("fill", self.x, self.y, 2)
+		love.graphics.push()
+		love.graphics.circle("fill", self.x, self.y, 0.5)
+		love.graphics.setLineWidth(0.2)
+		love.graphics.setColor({ 0.8, 0, 0, 1 })
+		love.graphics.line({ self.x, self.y - 2, self.x, self.y + 2 })
+		love.graphics.setColor({ 0, 0.8, 0, 1 })
+		love.graphics.line({ self.x - 2, self.y, self.x + 2, self.y })
+		love.graphics.pop()
 	end
 end
 
