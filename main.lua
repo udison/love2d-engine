@@ -1,6 +1,9 @@
 local Entity = require("engine.entity")
 local Draw = require("engine.draw")
 
+-- Game layer
+local Player = require("game.entities.player")
+
 Gs = {
 	fullscreen = false,
 
@@ -8,6 +11,7 @@ Gs = {
 		x = 0,
 		y = 0,
 		zoom = 4,
+		smoothness = 0, -- TODO: implement camera smoothness
 	},
 
 	entities_max_size = 4096,
@@ -25,7 +29,7 @@ function love.load()
 	Gs.entities[Gs.entities_max_size] = true
 	Gs.entities[Gs.entities_max_size] = nil
 
-	player = Entity.new()
+	player = Player.new()
 end
 
 ---@param dt number
@@ -49,7 +53,10 @@ function love.draw()
 	love.graphics.circle("fill", 35, 5, 2)
 	love.graphics.setColor({ 1, 1, 1, 1 })
 
-	player:draw()
+	-- TODO: add function that returns renderable entities y sorted
+	for index, entity in ipairs(Gs.entities) do
+		entity:draw()
+	end
 
 	love.graphics.pop()
 
