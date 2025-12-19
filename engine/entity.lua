@@ -1,11 +1,13 @@
 local Vec2 = require("math.vec2")
 
+---@class Entity
 local Entity = {
 	-- Transforms
 	position = Vec2.zero(),
 	motion = Vec2.zero(),
 
 	-- Sprite
+	---@type love.Image
 	sprite = nil, -- TODO: maybe refactor to a separate "Sprite" class?
 	sprite_width = 0,
 	sprite_height = 0,
@@ -25,6 +27,7 @@ function Entity.new()
 	e.sprite_width = e.sprite:getWidth()
 	e.sprite_height = e.sprite:getHeight()
 
+	table.insert(Gs.entities, e)
 	return e
 end
 

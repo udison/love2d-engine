@@ -1,5 +1,5 @@
-local Entity = require("src.entity")
-local Draw = require("src.draw")
+local Entity = require("engine.entity")
+local Draw = require("engine.draw")
 
 Gs = {
 	fullscreen = false,
@@ -9,12 +9,21 @@ Gs = {
 		y = 0,
 		zoom = 4,
 	},
+
+	entities_max_size = 4096,
+	entities = {},
+	---@type Entity
+	player = nil,
 }
 
 local player
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
+
+	-- Initializes the entities array to the max size to keep its size fixed
+	Gs.entities[Gs.entities_max_size] = true
+	Gs.entities[Gs.entities_max_size] = nil
 
 	player = Entity.new()
 end
