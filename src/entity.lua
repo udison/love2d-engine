@@ -1,8 +1,9 @@
+local Vec2 = require("math.vec2")
+
 local Entity = {
 	-- Transforms
-	x = 0,
-	y = 0,
-	motion = { 0, 0 }, -- TODO: implement a vec2
+	position = Vec2.zero(),
+	motion = Vec2.zero(),
 
 	-- Sprite
 	sprite = nil, -- TODO: maybe refactor to a separate "Sprite" class?
@@ -10,7 +11,7 @@ local Entity = {
 	sprite_height = 0,
 
 	-- Physics
-	speed = 15,
+	speed = 30,
 
 	-- Debug
 	draw_origin = false,
@@ -28,37 +29,41 @@ function Entity.new()
 end
 
 function Entity:draw()
-	love.graphics.draw(self.sprite, self.x - 16, self.y - 21)
+	love.graphics.draw(self.sprite, self.position.x - 16, self.position.y - 21)
 
 	if self.draw_origin then
 		love.graphics.push()
-		love.graphics.circle("fill", self.x, self.y, 0.5)
+		love.graphics.circle("fill", self.position.x, self.position.y, 0.5)
 		love.graphics.setLineWidth(0.2)
 		love.graphics.setColor({ 0.8, 0, 0, 1 })
-		love.graphics.line({ self.x, self.y - 2, self.x, self.y + 2 })
+		love.graphics.line({ self.position.x, self.position.y - 2, self.position.x, self.position.y + 2 })
 		love.graphics.setColor({ 0, 0.8, 0, 1 })
-		love.graphics.line({ self.x - 2, self.y, self.x + 2, self.y })
+		love.graphics.line({ self.position.x - 2, self.position.y, self.position.x + 2, self.position.y })
 		love.graphics.pop()
 	end
 end
 
 ---@param dt number
 function Entity:update(dt)
-	self.motion = { 0, 0 }
+	self.motion.x = 0
+	self.motion.y = 0
+
 	if love.keyboard.isDown("a") then
-		self.motion[1] = -1
+		self.motion.x = -1
 	elseif love.keyboard.isDown("d") then
-		self.motion[1] = 1
+		self.motion.x = 1
 	end
 
 	if love.keyboard.isDown("w") then
-		self.motion[2] = -1
+		self.motion.y = -1
 	elseif love.keyboard.isDown("s") then
-		self.motion[2] = 1
+		self.motion.y = 1
 	end
 
-	self.x = self.x + self.motion[1] * self.speed * dt
-	self.y = self.y + self.motion[2] * self.speed * dt
+	self.motion = self.motion:normalized()
+
+	self.position.x = self.position.x + self.motion.x * self.speed * dt
+	self.position.y = self.position.y + self.motion.y * self.speed * dt
 end
 
 return Entity

@@ -17,7 +17,6 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	player = Entity.new()
-	player.draw_origin = true
 end
 
 ---@param dt number
@@ -25,8 +24,8 @@ function love.update(dt)
 	player:update(dt)
 
 	local zoom_factor = Gs.camera.zoom * 2
-	Gs.camera.x = player.x - love.graphics.getWidth() / zoom_factor
-	Gs.camera.y = player.y - love.graphics.getHeight() / zoom_factor
+	Gs.camera.x = player.position.x - love.graphics.getWidth() / zoom_factor
+	Gs.camera.y = player.position.y - love.graphics.getHeight() / zoom_factor
 end
 
 function love.draw()
