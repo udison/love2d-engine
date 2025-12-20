@@ -5,6 +5,7 @@ local Vec2 = {
 	x = 0,
 	y = 0,
 }
+Vec2.mt = {}
 Vec2.__index = Vec2
 
 function Vec2.new(x, y)
@@ -15,6 +16,42 @@ function Vec2.new(x, y)
 
 	return v
 end
+
+function Vec2.__add(v1, v2)
+	-- vec2 + vec2
+	if getmetatable(v1) == Vec2 and getmetatable(v2) == Vec2 then
+		return Vec2.new(v1.x + v2.x, v1.y + v2.y)
+
+	-- vec2 + number
+	elseif getmetatable(v1) == Vec2 and type(v2) == "number" then
+		return Vec2.new(v1.x + v2, v1.y + v2)
+
+	-- number + vec2
+	elseif getmetatable(v2) == Vec2 and type(v1) == "number" then
+		return Vec2.new(v2.x + v1, v2.y + v1)
+	end
+end
+
+function Vec2.__mul(v1, v2)
+	-- vec2 * vec2
+	if getmetatable(v1) == Vec2 and getmetatable(v2) == Vec2 then
+		return Vec2.new(v1.x * v2.x, v1.y * v2.y)
+
+	-- vec2 * number
+	elseif getmetatable(v1) == Vec2 and type(v2) == "number" then
+		return Vec2.new(v1.x * v2, v1.y * v2)
+
+	-- number * vec2
+	elseif getmetatable(v2) == Vec2 and type(v1) == "number" then
+		return Vec2.new(v2.x * v1, v2.y * v1)
+	end
+end
+
+-- TODO: neither work for some reason
+-- function Vec2.__call(x, y)
+-- 	return Vec2.new(x, y)
+-- end
+-- Vec2.__call = Vec2.new
 
 function Vec2.zero()
 	return Vec2.new()

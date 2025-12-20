@@ -38,8 +38,7 @@ function Player:update(dt)
 
 	self.motion = self.motion:normalized()
 
-	self.position.x = self.position.x + self.motion.x * self.speed * dt
-	self.position.y = self.position.y + self.motion.y * self.speed * dt
+	self.position = self.position + self.motion * self.speed * dt
 end
 
 return Player
