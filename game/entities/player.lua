@@ -1,4 +1,6 @@
 local Entity = require("engine.entity")
+local Utils = require("engine.utils")
+local Sprite = require("engine.sprite")
 
 ---@class Player
 local Player = {}
@@ -9,10 +11,8 @@ function Player.new()
 	local self = Entity.new()
 	self = setmetatable(self, Player)
 
-	self.sprite = love.graphics.newImage("assets/sprites/player_base.png")
-	self.sprite_width = self.sprite:getWidth()
-	self.sprite_height = self.sprite:getHeight()
-	self.sprite_offset = Vec2.new(16, 21)
+	self.sprite = Sprite.new("assets/sprites/player_base.png", Vec2.new(16, 21))
+	self.speed = 30
 
 	return self
 end

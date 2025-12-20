@@ -17,14 +17,11 @@ local Entity = {
 	motion = Vec2.zero(),
 
 	-- Sprite
-	---@type love.Image
-	sprite = nil, -- TODO: maybe refactor to a separate "Sprite" class?
-	sprite_width = 0,
-	sprite_height = 0,
-	sprite_offset = Vec2.zero(),
+	---@type Sprite
+	sprite = nil,
 
 	-- Physics
-	speed = 30,
+	speed = 0,
 
 	-- Debug
 	draw_origin = false,
@@ -41,7 +38,11 @@ end
 
 function Entity:draw()
 	if self.sprite then
-		love.graphics.draw(self.sprite, self.position.x - self.sprite_offset.x, self.position.y - self.sprite_offset.x)
+		love.graphics.draw(
+			self.sprite.texture,
+			self.position.x - self.sprite.offset.x,
+			self.position.y - self.sprite.offset.y
+		)
 	end
 
 	if self.draw_origin then
