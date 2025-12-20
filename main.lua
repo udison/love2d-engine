@@ -1,8 +1,7 @@
-local Entity = require("engine.entity")
-local Draw = require("engine.draw")
-
--- Game layer
+local Utils = require("engine.utils")
 local Player = require("game.entities.player")
+local Chest = require("game.entities.chest")
+local Vec2 = require("math.vec2")
 
 Gs = {
 	fullscreen = false,
@@ -21,6 +20,7 @@ Gs = {
 }
 
 local player
+local chest
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -30,6 +30,10 @@ function love.load()
 	Gs.entities[Gs.entities_max_size] = nil
 
 	player = Player.new()
+	chest = Chest.new()
+	print(player.position)
+	print(chest.position)
+	-- chest.position = Vec2.new(30, 30)
 end
 
 ---@param dt number

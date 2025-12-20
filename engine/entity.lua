@@ -30,6 +30,7 @@ Entity.__index = Entity
 
 function Entity.new()
 	local e = setmetatable({}, Entity)
+	e.position = Vec2.new()
 
 	table.insert(Gs.entities, e)
 

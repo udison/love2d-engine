@@ -1,7 +1,7 @@
 ---@class Vec2
 ---@field x number
 ---@field y number
-Vec2 = {
+local Vec2 = {
 	x = 0,
 	y = 0,
 }

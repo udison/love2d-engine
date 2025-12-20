@@ -1,6 +1,7 @@
 local Entity = require("engine.entity")
 local Utils = require("engine.utils")
 local Sprite = require("engine.sprite")
+local Vec2 = require("math.vec2")
 
 ---@class Player
 local Player = {}
@@ -22,6 +23,7 @@ function Player:update(dt)
 	self.motion.x = 0
 	self.motion.y = 0
 
+	-- TODO: a nice action-based input system would be nice
 	if love.keyboard.isDown("a") then
 		self.motion.x = -1
 	elseif love.keyboard.isDown("d") then

@@ -1,3 +1,5 @@
+local Vec2 = require("math.vec2")
+
 ---@class Sprite
 local Sprite = {
 	---@type love.Image

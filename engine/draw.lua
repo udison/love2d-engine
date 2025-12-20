@@ -1,4 +1,4 @@
-Draw = {}
+local Draw = {}
 
 --- Draws a cross on the whole screen... pretty self-explanatory huh.
 --- If a color is provided, it will be set to white at the end of the function.
