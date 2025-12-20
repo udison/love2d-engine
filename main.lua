@@ -2,6 +2,7 @@ local Utils = require("engine.utils")
 local Player = require("game.entities.player")
 local Chest = require("game.entities.chest")
 local Vec2 = require("math.vec2")
+local Draw = require("engine.draw")
 
 Gs = {
 	fullscreen = false,
@@ -46,16 +47,17 @@ end
 function love.draw()
 	love.graphics.clear({ 0.1, 0.47, 0.3, 1 })
 
-	-- world space
+	-- camera settings
 	love.graphics.push()
 	love.graphics.scale(Gs.camera.zoom, Gs.camera.zoom)
 	love.graphics.translate(-Gs.camera.x, -Gs.camera.y)
 
+	-- world space
 	love.graphics.setColor({ 0.8, 0.2, 0.3, 1 })
 	love.graphics.circle("fill", 35, 5, 2)
 	love.graphics.setColor({ 1, 1, 1, 1 })
 
-	-- TODO: add function that returns renderable entities y sorted
+	Draw.y_sort_entities()
 	for index, entity in ipairs(Gs.entities) do
 		entity:draw()
 	end

@@ -25,4 +25,13 @@ function Draw.cross_whole_screen(color)
 	end
 end
 
+--- Sorts the entities array by their position on the Y axis so entities further up appear behind entities further down.
+--- @return nil
+function Draw.y_sort_entities()
+	-- TODO: this is maybe a bad way of doing this... might check later
+	table.sort(Gs.entities, function(a, b)
+		return a.position.y < b.position.y
+	end)
+end
+
 return Draw
