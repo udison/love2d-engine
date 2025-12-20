@@ -10,7 +10,7 @@ setmetatable(Chest, { __index = Entity })
 function Chest.new()
 	local c = Entity.new()
 
-	c.sprite = Sprite.new("assets/sprites/chest.png", Vec2.new())
+	c.sprite = Sprite.new("assets/sprites/chest.png", Vec2.new(8, 13))
 
 	return c
 end

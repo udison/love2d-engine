@@ -31,9 +31,7 @@ function love.load()
 
 	player = Player.new()
 	chest = Chest.new()
-	print(player.position)
-	print(chest.position)
-	-- chest.position = Vec2.new(30, 30)
+	chest.position = Vec2.new(30, 30)
 end
 
 ---@param dt number
