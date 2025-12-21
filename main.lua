@@ -33,16 +33,22 @@ function love.load()
 	player = Player.new()
 	chest = Chest.new()
 	chest.position = Vec2.new(30, 30)
-
-	Utils.print_table(Vec2.new(10, 10) * Vec2.new(10, 30))
-	Utils.print_table(Vec2.new(10, 10) * 30)
-	Utils.print_table(25 * Vec2.new(10, 10))
-	Utils.print_table(25 * Vec2.new(10, 10) * 30)
 end
 
 ---@param dt number
 function love.update(dt)
-	player:update(dt)
+	for index, entity in ipairs(Gs.entities) do
+		entity:internal_update(dt)
+
+		if entity.update ~= nil then
+			entity:update(dt)
+		end
+	end
+
+	-- TODO: implement timed physics update (run at 60 fps)
+	-- for index, entity in ipairs(Gs.entities) do
+	-- 	entity:physics_update(dt)
+	-- end
 
 	local zoom_factor = Gs.camera.zoom * 2
 	Gs.camera.x = player.position.x - love.graphics.getWidth() / zoom_factor

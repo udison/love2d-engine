@@ -2,8 +2,9 @@ local Entity = require("engine.entity")
 local Utils = require("engine.utils")
 local Sprite = require("engine.sprite")
 local Vec2 = require("math.vec2")
+local AABB = require("engine.aabb")
 
----@class Player
+---@class Player : Entity
 local Player = {}
 Player.__index = Player
 setmetatable(Player, { __index = Entity })
@@ -12,8 +13,17 @@ function Player.new()
 	local self = Entity.new()
 	self = setmetatable(self, Player)
 
+	self.name = "player"
 	self.sprite = Sprite.new("assets/sprites/player_base.png", Vec2.new(16, 21))
 	self.speed = 30
+
+	self.do_collision = true
+	self.collision_shape_offset = {
+		Vec2.new(-3, -1),
+		Vec2.new(2, 1),
+	}
+	self.collision_shape = AABB.new()
+	self.draw_collision_shape = true
 
 	return self
 end
