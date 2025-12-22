@@ -14,7 +14,7 @@ function Chest.new()
 
 	c.name = "chest"
 	c.sprite = Sprite.new("assets/sprites/chest.png", Vec2.new(8, 13))
-	c.do_collision = true
+	c.collision_enabled = true
 	c.collision_shape_offset = { Vec2.new(-7, -3), Vec2.new(7, 1) }
 	c.collision_shape = AABB.new()
 	c.draw_collision_shape = true

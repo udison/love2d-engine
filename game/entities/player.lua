@@ -17,7 +17,8 @@ function Player.new()
 	self.sprite = Sprite.new("assets/sprites/player_base.png", Vec2.new(16, 21))
 	self.speed = 30
 
-	self.do_collision = true
+	self.collision_enabled = true
+	self.collision_static = true
 	self.collision_shape_offset = {
 		Vec2.new(-3, -1),
 		Vec2.new(2, 1),
@@ -48,7 +49,7 @@ function Player:update(dt)
 
 	self.motion = self.motion:normalized()
 
-	self.position = self.position + self.motion * self.speed * dt
+	self:move_and_collide(dt)
 end
 
 return Player

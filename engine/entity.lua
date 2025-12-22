@@ -9,7 +9,8 @@ local Collision = require("engine.collision")
 ---@field motion Vec2 The movement input
 ---@field sprite Sprite The entity sprite (texture)
 ---@field speed number The entity speed
----@field do_collision boolean Defines whether or not the entity will be considered on physics update for collision detection
+---@field collision_enabled boolean Defines whether or not the entity will be considered on physics update for collision detection
+---@field collision_static boolean When true, this object stops detecting collisions, leaving the work only for the entities that move
 ---@field collision_shape AABB The collision shape (just AABB for the time being)
 ---@field collision_shape_offset [Vec2, Vec2] The collision shape offset relative to the entity origin point, this is added to the entity position every physics frame in order to determine the collision shape size and position in the world.
 ---@field draw_origin boolean Draws the entity origin point when true
@@ -36,7 +37,8 @@ function Entity.new()
 
 		-- Physics
 		speed = 0,
-		do_collision = false,
+		collision_enabled = false,
+		collision_static = false,
 		collision_shape = nil,
 		collision_shape_offset = { Vec2.zero(), Vec2.zero() },
 
@@ -98,6 +100,29 @@ function Entity:internal_update(dt)
 		self.position + self.collision_shape_offset[1],
 		self.position + self.collision_shape_offset[2]
 	)
+end
+
+function Entity:move_and_collide(dt)
+	self.position = self.position + self.motion * self.speed * dt
+
+	local intersection = false
+	for i, entity in ipairs(Gs.entities) do
+		if not entity.collision_enabled or entity == self then
+			goto continue
+		end
+
+		intersection = Collision.aabb_to_aabb(self.collision_shape, entity.collision_shape)
+
+		if intersection then
+			break
+		end
+
+		::continue::
+	end
+
+	if intersection then
+		print("collision!")
+	end
 end
 
 return Entity
