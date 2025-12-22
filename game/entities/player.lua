@@ -18,7 +18,7 @@ function Player.new()
 	self.speed = 30
 
 	self.collision_enabled = true
-	self.collision_static = true
+	self.collision_static = false
 	self.collision_shape_offset = {
 		Vec2.new(-3, -1),
 		Vec2.new(2, 1),

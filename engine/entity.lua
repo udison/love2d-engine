@@ -38,7 +38,7 @@ function Entity.new()
 		-- Physics
 		speed = 0,
 		collision_enabled = false,
-		collision_static = false,
+		collision_static = true,
 		collision_shape = nil,
 		collision_shape_offset = { Vec2.zero(), Vec2.zero() },
 
