@@ -34,6 +34,7 @@ function Player:update(dt)
 	self.motion.x = 0
 	self.motion.y = 0
 
+	-- TODO: remove one of the 'nice' on the comment below
 	-- TODO: a nice action-based input system would be nice
 	if love.keyboard.isDown("a") then
 		self.motion.x = -1

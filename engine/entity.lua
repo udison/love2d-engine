@@ -95,17 +95,25 @@ end
 --- Refer to the "update" function if you want to add custom behavior to an entity.
 --- @param dt number
 function Entity:internal_update(dt)
+	self:update_collision()
+end
+
+function Entity:update_collision(position)
+	if position == nil then
+		position = self.position
+	end
+
 	-- TODO: create a "update_position" method on AABB
-	self.collision_shape = self.collision_shape.new(
-		self.position + self.collision_shape_offset[1],
-		self.position + self.collision_shape_offset[2]
-	)
+	self.collision_shape =
+		self.collision_shape.new(position + self.collision_shape_offset[1], position + self.collision_shape_offset[2])
 end
 
 function Entity:move_and_collide(dt)
-	self.position = self.position + self.motion * self.speed * dt
+	local target_position = self.position + self.motion * self.speed * dt
+	self:update_collision()
 
 	local intersection = false
+	local push_vector = Vec2.zero()
 	for i, entity in ipairs(Gs.entities) do
 		if not entity.collision_enabled or entity == self then
 			goto continue
@@ -114,6 +122,7 @@ function Entity:move_and_collide(dt)
 		intersection = Collision.aabb_to_aabb(self.collision_shape, entity.collision_shape)
 
 		if intersection then
+			push_vector = Collision.aabb_resolve(self.collision_shape, entity.collision_shape)
 			break
 		end
 
@@ -122,6 +131,9 @@ function Entity:move_and_collide(dt)
 
 	if intersection then
 		print("collision!")
+		self.position = target_position + push_vector
+	else
+		self.position = target_position
 	end
 end
 

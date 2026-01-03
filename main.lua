@@ -65,12 +65,9 @@ function love.draw()
 	love.graphics.translate(-Gs.camera.x, -Gs.camera.y)
 
 	-- world space
-	love.graphics.setColor({ 0.8, 0.2, 0.3, 1 })
-	love.graphics.circle("fill", 35, 5, 2)
-	love.graphics.setColor({ 1, 1, 1, 1 })
-
 	Draw.y_sort_entities()
-	for index, entity in ipairs(Gs.entities) do
+
+	for _, entity in ipairs(Gs.entities) do
 		entity:draw()
 	end
 
