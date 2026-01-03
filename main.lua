@@ -17,6 +17,7 @@ Gs = {
 
 	entities_max_size = 4096,
 	entities = {},
+
 	---@type Entity
 	player = nil,
 }

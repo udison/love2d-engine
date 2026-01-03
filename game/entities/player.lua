@@ -14,7 +14,6 @@ function Player.new()
 	self = setmetatable(self, Player)
 
 	self.name = "player"
-	self.sprite = Sprite.new("assets/sprites/player_base.png", Vec2.new(16, 21))
 	self.speed = 30
 
 	self.collision_enabled = true
@@ -25,6 +24,10 @@ function Player.new()
 	}
 	self.collision_shape = AABB.new()
 	self.draw_collision_shape = true
+
+	-- sprite/animations
+	self.sprite = Sprite.new("assets/sprites/player_base.png", Vec2.new(16, 21), 16, 16)
+	self.sprite:new_anim("idle", 2, 2)
 
 	return self
 end

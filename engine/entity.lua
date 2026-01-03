@@ -55,10 +55,24 @@ end
 
 function Entity:draw()
 	if self.sprite then
+		-- love.graphics.draw(
+		-- 	self.sprite.texture,
+		-- 	self.position.x - self.sprite.offset.x,
+		-- 	self.position.y - self.sprite.offset.y
+		-- )
+
+		local quad = love.graphics.newQuad(0, 0, 32, 32, self.sprite.texture)
+
 		love.graphics.draw(
 			self.sprite.texture,
-			self.position.x - self.sprite.offset.x,
-			self.position.y - self.sprite.offset.y
+			quad,
+			self.position.x,
+			self.position.y,
+			0,
+			1,
+			1,
+			self.sprite.offset.x,
+			self.sprite.offset.y
 		)
 	end
 
