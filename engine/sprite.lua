@@ -1,4 +1,5 @@
 local Vec2 = require("math.vec2")
+local MathUtils = require("math.math_utils")
 
 ---@class Animation Represents a sprite animation in a spritesheet (row based)
 ---@field name string The animation name
@@ -22,6 +23,9 @@ Animation.__index = Animation
 ---@field cell_width number The cell width
 ---@field cell_height number The cell height
 ---@field offset Vec2 The origin offset from top-left corner
+---@field current_animation? Animation The current active animation
+---@field frame number Current active frame
+---@field timer number Accumulated time on current animation frame
 ---@field animations table<string, Animation> A table with all this spritesheet animations
 local Sprite = {
 	texture = nil,
@@ -30,6 +34,9 @@ local Sprite = {
 	cell_width = 0,
 	cell_height = 0,
 	offset = Vec2.zero(),
+	current_animation = nil,
+	frame = 0,
+	timer = 0,
 	animations = {},
 }
 Sprite.__index = Sprite
@@ -53,6 +60,8 @@ function Sprite.new(path, offset, cell_width, cell_height)
 	spr.cell_width = cell_width
 	spr.cell_height = cell_height
 	spr.offset = offset
+	spr.frame = 1
+	spr.timer = 0
 
 	return spr
 end
@@ -62,7 +71,8 @@ end
 ---@param row number The row in the spritesheet where the animation is located (starts at 1)
 ---@param length number The amount of frames in the animation
 ---@param fps number? The frames per second of the animation (default is 8)
-function Sprite:new_anim(name, row, length, fps)
+---@param loop boolean? If true, the animation will start over when reaching the end
+function Sprite:new_anim(name, row, length, fps, loop)
 	if fps == nil then
 		fps = 8
 	end
@@ -72,9 +82,47 @@ function Sprite:new_anim(name, row, length, fps)
 		row_index = row,
 		length = length,
 		fps = fps,
+		loop = loop,
 	}, Animation)
 
 	self.animations[name] = new_anim
+
+	if self.current_animation == nil then
+		self.current_animation = new_anim
+	end
+end
+
+function Sprite:set_anim(name)
+	if self.current_animation.name == name then
+		return
+	end
+
+	if self.animations[name] == nil then
+		print("[Sprite] Animation '", name, "' does not exists!")
+		return
+	end
+
+	self.current_animation = self.animations[name]
+	self.frame = 1
+	self.timer = 0
+end
+
+---@param dt number
+function Sprite:handle_animation(dt)
+	if self.current_animation then
+		if not self.current_animation.loop and self.frame == self.current_animation.length then
+			self.timer = 0
+			return
+		end
+
+		local target = 1000 / self.current_animation.fps
+		self.timer = self.timer + dt * 1000
+
+		if self.timer >= target then
+			self.timer = 0
+			self.frame = MathUtils.wrap_int(self.frame + 1, 1, self.current_animation.length + 1)
+		end
+	end
 end
 
 return Sprite

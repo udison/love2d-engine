@@ -1,5 +1,6 @@
 local Vec2 = require("math.vec2")
 local Collision = require("engine.collision")
+local MathUtils = require("math.math_utils")
 
 ---@class Entity A entity that exists in the game world (player, items, objects, plants, etc)
 ---@field name string Internal name of the entity
@@ -55,13 +56,15 @@ end
 
 function Entity:draw()
 	if self.sprite then
-		-- love.graphics.draw(
-		-- 	self.sprite.texture,
-		-- 	self.position.x - self.sprite.offset.x,
-		-- 	self.position.y - self.sprite.offset.y
-		-- )
-
-		local quad = love.graphics.newQuad(0, 0, 32, 32, self.sprite.texture)
+		local sprite_row = self.sprite.current_animation and self.sprite.current_animation.row_index - 1 or 0
+		local sprite_idx = self.sprite.current_animation and self.sprite.frame - 1 or 0
+		local quad = love.graphics.newQuad(
+			sprite_idx * self.sprite.cell_width,
+			sprite_row * self.sprite.cell_height,
+			self.sprite.cell_width,
+			self.sprite.cell_height,
+			self.sprite.texture
+		)
 
 		love.graphics.draw(
 			self.sprite.texture,
@@ -110,6 +113,7 @@ end
 --- @param dt number
 function Entity:internal_update(dt)
 	self:update_collision()
+	self.sprite:handle_animation(dt)
 end
 
 function Entity:update_collision(position)
@@ -144,7 +148,6 @@ function Entity:move_and_collide(dt)
 	end
 
 	if intersection then
-		print("collision!")
 		self.position = target_position + push_vector
 	else
 		self.position = target_position

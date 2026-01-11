@@ -23,11 +23,14 @@ function Player.new()
 		Vec2.new(2, 1),
 	}
 	self.collision_shape = AABB.new()
-	self.draw_collision_shape = true
 
 	-- sprite/animations
-	self.sprite = Sprite.new("assets/sprites/player_base.png", Vec2.new(16, 21), 16, 16)
-	self.sprite:new_anim("idle", 2, 2)
+	self.sprite = Sprite.new("assets/sprites/player.png", Vec2.new(16, 21), 32, 32)
+	self.sprite:new_anim("reset", 1, 1)
+	self.sprite:new_anim("idle", 2, 2, 1, true)
+	self.sprite:new_anim("walk", 3, 4, 6, true)
+
+	self.sprite.current_animation = self.sprite.animations.idle
 
 	return self
 end
@@ -37,6 +40,7 @@ function Player:update(dt)
 	self.motion.x = 0
 	self.motion.y = 0
 
+	-- Input
 	-- TODO: remove one of the 'nice' on the comment below
 	-- TODO: a nice action-based input system would be nice
 	if love.keyboard.isDown("a") then
@@ -53,6 +57,14 @@ function Player:update(dt)
 
 	self.motion = self.motion:normalized()
 
+	-- Animations
+	if self.motion:magnitude() > 0 then
+		self.sprite:set_anim("walk")
+	else
+		self.sprite:set_anim("idle")
+	end
+
+	-- Move
 	self:move_and_collide(dt)
 end
 

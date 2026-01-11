@@ -4,6 +4,7 @@ local Chest = require("game.entities.chest")
 local Vec2 = require("math.vec2")
 local Draw = require("engine.draw")
 local Collision = require("engine.collision")
+local math_utils = require("math.math_utils")
 
 Gs = {
 	fullscreen = false,
