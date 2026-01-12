@@ -1,10 +1,7 @@
-local Utils = require("engine.utils")
 local Player = require("game.entities.player")
 local Chest = require("game.entities.chest")
 local Vec2 = require("math.vec2")
 local Draw = require("engine.draw")
-local Collision = require("engine.collision")
-local math_utils = require("math.math_utils")
 
 Gs = {
 	fullscreen = false,
@@ -19,7 +16,7 @@ Gs = {
 	entities_max_size = 4096,
 	entities = {},
 
-	---@type Entity
+	---@type Player
 	player = nil,
 }
 

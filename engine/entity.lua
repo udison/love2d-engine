@@ -9,6 +9,7 @@ local MathUtils = require("math.math_utils")
 ---@field position Vec2 The entity position in world space
 ---@field motion Vec2 The movement input
 ---@field sprite Sprite The entity sprite (texture)
+---@field shadow Sprite The shadow sprite
 ---@field speed number The entity speed
 ---@field collision_enabled boolean Defines whether or not the entity will be considered on physics update for collision detection
 ---@field collision_static boolean When true, this object stops detecting collisions, leaving the work only for the entities that move
@@ -35,6 +36,7 @@ function Entity.new()
 
 		-- Sprite
 		sprite = nil,
+		shadow = nil,
 
 		-- Physics
 		speed = 0,
@@ -56,6 +58,19 @@ end
 
 function Entity:draw()
 	if self.sprite then
+		if self.shadow then
+			love.graphics.draw(
+				self.shadow.texture,
+				self.position.x,
+				self.position.y,
+				0,
+				self.sprite.flip_h and -1 or 1,
+				1,
+				self.sprite.offset.x,
+				self.sprite.offset.y
+			)
+		end
+
 		local sprite_row = self.sprite.current_animation and self.sprite.current_animation.row_index - 1 or 0
 		local sprite_idx = self.sprite.current_animation and self.sprite.frame - 1 or 0
 		local quad = love.graphics.newQuad(
@@ -72,7 +87,7 @@ function Entity:draw()
 			self.position.x,
 			self.position.y,
 			0,
-			1,
+			self.sprite.flip_h and -1 or 1,
 			1,
 			self.sprite.offset.x,
 			self.sprite.offset.y

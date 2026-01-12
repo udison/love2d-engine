@@ -27,6 +27,7 @@ Animation.__index = Animation
 ---@field frame number Current active frame
 ---@field timer number Accumulated time on current animation frame
 ---@field animations table<string, Animation> A table with all this spritesheet animations
+---@field flip_h boolean If true, flips the sprite horizontally
 local Sprite = {
 	texture = nil,
 	width = 0,
@@ -38,6 +39,7 @@ local Sprite = {
 	frame = 0,
 	timer = 0,
 	animations = {},
+	flip_h = false,
 }
 Sprite.__index = Sprite
 

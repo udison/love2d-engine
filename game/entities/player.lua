@@ -30,6 +30,8 @@ function Player.new()
 	self.sprite:new_anim("idle", 2, 2, 1, true)
 	self.sprite:new_anim("walk", 3, 4, 6, true)
 
+	self.shadow = Sprite.new("assets/sprites/shadow.png", Vec2.new(16, 21), 32, 32)
+
 	self.sprite.current_animation = self.sprite.animations.idle
 
 	return self
@@ -45,8 +47,10 @@ function Player:update(dt)
 	-- TODO: a nice action-based input system would be nice
 	if love.keyboard.isDown("a") then
 		self.motion.x = -1
+		self.sprite.flip_h = true
 	elseif love.keyboard.isDown("d") then
 		self.motion.x = 1
+		self.sprite.flip_h = false
 	end
 
 	if love.keyboard.isDown("w") then
